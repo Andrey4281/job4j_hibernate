@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.job4j.job4j_hibernate.models.Item;
 import ru.job4j.job4j_hibernate.persistent.DaoItem;
 import ru.job4j.job4j_hibernate.persistent.DaoItemHibernate;
+import ru.job4j.job4j_hibernate.persistent.DaoItemHibernateWrapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,10 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ItemServlet extends HttpServlet {
-    private final DaoItem dao = DaoItemHibernate.getInstance();
+    private final DaoItem dao = DaoItemHibernateWrapper.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -27,6 +30,8 @@ public class ItemServlet extends HttpServlet {
         } else {
             res = dao.getAllIsNotDone();
         }
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        mapper.setDateFormat(df);
         mapper.writeValue(resp.getOutputStream(), res);
     }
 

@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 public class DaoItemHibernate implements DaoItem {
@@ -30,8 +29,9 @@ public class DaoItemHibernate implements DaoItem {
     }
 
     @Override
-    public void add(Item item) {
+    public Item add(Item item) {
         Session session = factory.openSession();
+        Item result = null;
         Transaction tr = null;
         try {
             tr = session.beginTransaction();
@@ -39,6 +39,7 @@ public class DaoItemHibernate implements DaoItem {
             item.setCreated(new Timestamp(System.currentTimeMillis()));
             session.save(item);
             tr.commit();
+            result = item;
         } catch (Exception e) {
             if (tr != null) {
                 tr.rollback();
@@ -47,6 +48,7 @@ public class DaoItemHibernate implements DaoItem {
         } finally {
             session.close();
         }
+        return result;
     }
 
     @Override
