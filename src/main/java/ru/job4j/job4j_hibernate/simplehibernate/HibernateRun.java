@@ -21,7 +21,7 @@ public class HibernateRun {
         session.save(user);
         session.getTransaction().commit();
 
-        User savedUser = session.load(User.class, 6);
+        User savedUser = session.load(User.class, 8);
         System.out.println(savedUser);
 
         session.beginTransaction();
@@ -30,12 +30,12 @@ public class HibernateRun {
         session.getTransaction().commit();
 
         User changedUser = (User) session.createQuery("from User where id=:param")
-                .setParameter("param", 6).list().get(0);
+                .setParameter("param", 8).list().get(0);
         System.out.println(changedUser);
 
         session.beginTransaction();
         session.createQuery("delete User where id=:param")
-                .setParameter("param", 6).executeUpdate();
+                .setParameter("param", 8).executeUpdate();
         session.getTransaction().commit();
 
         List<User> users = session.createQuery("from User").list();
