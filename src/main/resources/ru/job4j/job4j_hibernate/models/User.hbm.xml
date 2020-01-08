@@ -10,5 +10,7 @@
         <property name = "name" column = "name"/>
         <property name = "expired" column = "expired"/>
 
+
+
     </class>
 </hibernate-mapping>
